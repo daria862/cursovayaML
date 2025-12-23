@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Medical Detection</title>
+    <link href="cdn.jsdelivr.net" rel="stylesheet">
+    <style>
+        body { background-color: #f4f7f6; font-family: 'Segoe UI', sans-serif; }
+        .hero-section { background: #004d40; color: white; padding: 60px 0; border-bottom: 5px solid #00796b; }
+        .upload-card { border: none; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-top: -50px; }
+        .btn-primary { background-color: #00796b; border: none; padding: 12px 30px; }
+        .btn-primary:hover { background-color: #004d40; }
+        .class-badge { background: #e0f2f1; color: #004d40; margin: 5px; padding: 10px 15px; border-radius: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+<div class="hero-section text-center">
+    <h1>Система интеллектуальной диагностики кожи</h1>
+    <p>Загрузите фотографию пораженного участка для автоматического анализа</p>
+</div>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card upload-card p-5">
+                <form action="/detect" method="post" enctype="multipart/form-data">
+                    <div class="mb-4">
+                        <label for="file" class="form-label h5">Выберите изображение (JPG/PNG)</label>
+                        <input class="form-control form-control-lg" type="file" name="file" id="file" required>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">Запустить анализ</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="mt-5 text-center">
+                <h5>Поддерживаемые типы заболеваний:</h5>
+                {% for cls in classes %}
+                <span class="class-badge">{{ cls.capitalize() }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+train: skin_yolo_dataset/train/images
+val: skin_yolo_dataset/val/images
+nc: 5
+names: ['carcinoma', 'dermatitis', 'eczema', 'melanoma', 'psoriasis']

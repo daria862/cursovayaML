@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты анализа</title>
+    <link href="cdn.jsdelivr.net" rel="stylesheet">
+    <style>
+        body { background-color: #f4f7f6; }
+        .result-container { margin-top: 50px; margin-bottom: 50px; }
+        .result-img { max-width: 100%; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+        .counter-badge { font-size: 1.5rem; background-color: #d32f2f; color: white; padding: 10px 20px; border-radius: 10px; }
+        .prob-bar { height: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">← Назад к загрузке</a>
+    </div>
+</nav>
+
+<div class="container result-container">
+    <div class="row">
+        <!-- Левая колонка: Изображение -->
+        <div class="col-md-7 text-center">
+            <h2 class="mb-4">Обработанное изображение</h2>
+            <img src="{{ image_url }}" class="result-img" alt="Результат детекции">
+        </div>
+
+        <!-- Правая колонка: Данные -->
+        <div class="col-md-5">
+            <div class="card p-4 shadow-sm">
+                <div class="text-center mb-4">
+                    <span class="counter-badge">Найдено очагов: {{ disease_count }}</span>
+                </div>
+
+                <h4>Детализация:</h4>
+                {% if detected_items %}
+                    {% for item in detected_items %}
+                    <div class="alert alert-danger">
+                        <strong>Тип:</strong> {{ item.class_name.upper() }}<br>
+                        <strong>Уверенность:</strong> {{ (item.confidence * 100)|round(2) }}%
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="alert alert-success">Патологий не обнаружено или низкая уверенность модели.</div>
+                {% endif %}
+
+                <hr>
+                <h5>Распределение вероятностей:</h5>
+                {% for pred in all_predictions %}
+                <div class="mb-2">
+                    <div class="d-flex justify-content-between">
+                        <small>{{ pred.name }}</small>
+                        <small>{{ (pred.prob * 100)|round(1) }}%</small>
+                    </div>
+                    <div class="progress prob-bar">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ pred.prob * 100 }}%"></div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
